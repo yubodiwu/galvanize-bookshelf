@@ -1,6 +1,11 @@
 /* eslint-disable camelcase */
 
 'use strict';
+// jshint esversion: 6
+// jshint devel: true
+// jshint node: true
+// jshint browser: true
+// jshint mocha: true
 
 process.env.NODE_ENV = 'test';
 
@@ -17,6 +22,16 @@ const server = require('../server');
 suite('part3 routes', () => {
     before((done) => {
         knex.migrate.latest()
+            .then(() => {
+                done();
+            })
+            .catch((err) => {
+                done(err);
+            });
+    });
+
+    after((done) => {
+        knex.migrate.rollback()
             .then(() => {
                 done();
             })

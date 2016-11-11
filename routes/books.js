@@ -38,7 +38,7 @@ router.get(`/books/:id`, function(req, res) {
 });
 
 router.post(`/books`, function(req, res) {
-    // console.log(`id is `, req.body);
+    console.log(`POST HIT`, req.body.id);
     knex('books')
         .insert(_snakeAllKeys(req.body))
         .returning('*')
@@ -46,8 +46,7 @@ router.post(`/books`, function(req, res) {
             res.send(_convertForTests(book)[0]);
         }).catch(function(err) {
             console.log(`post error: `, err);
-        })
-        .done();
+        });
 });
 
 router.patch(`/books/:id`, function(req, res) {
