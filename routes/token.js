@@ -16,11 +16,9 @@ router.get(`/token`, function(req, res) {
 });
 
 router.post(`/token`, function(req, res) {
-    res.cookie('token','9000',{
-        maxAge: 90000,
-        httpOnly: true
-    })
-        console.log(`cookie: `, res.cookies);
+    res.cookie(req.body)
+    console.log('happy time');
+    console.log(`cookie:`, req.session);
     var sendObj = {};
 
     for (let key in req.body) {
@@ -29,7 +27,7 @@ router.post(`/token`, function(req, res) {
         }
     }
 
-    res.send(req.session);
+    res.end()
 });
 
 module.exports = router;

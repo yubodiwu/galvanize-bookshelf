@@ -13,6 +13,8 @@ const router = express.Router();
 
 // YOUR CODE HERE
 router.get(`/books`, function(req, res) {
+    console.log(`/books is hit`);
+    console.log(res);
     knex('books')
         .select('*')
         .returning('*')
@@ -26,6 +28,7 @@ router.get(`/books`, function(req, res) {
 });
 
 router.get(`/books/:id`, function(req, res) {
+    console.log(`/books/:id is hit`);
     knex('books')
         .select()
         .where('id', req.params.id)
@@ -39,13 +42,12 @@ router.get(`/books/:id`, function(req, res) {
 
 router.post(`/books`, function(req, res) {
     console.log(`POST HIT`, req.body.id);
+    console.log(req.body);
     knex('books')
         .insert(_snakeAllKeys(req.body))
         .returning('*')
         .then(function(book) {
             res.send(_convertForTests(book)[0]);
-        }).catch(function(err) {
-            console.log(`post error: `, err);
         });
 });
 
