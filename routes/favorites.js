@@ -8,6 +8,9 @@
 const express = require('express');
 const knex = require('../knex');
 const helpers = require('./helper_functions')
+const convertForTests = require('./helper_functions').convertForTests;
+const toSnakeCase = require('./helper_functions').toSnakeCase;
+const snakeAllKeys = require('./helper_functions').snakeAllKeys;
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -17,7 +20,7 @@ router.get(`/favorites`, function(req, res) {
         .select()
         .join(`books`, `favorites.book_id`, `books.id`)
         .then(function(favorites) {
-            res.send(helpers.convertForTests(favorites));
+            res.send(convertForTests(favorites));
         });
 });
 
@@ -25,7 +28,7 @@ router.get(`/favorites/check`, function(req, res) {
     for (let key in req.query) {
         knex(`favorites`)
             .select()
-            .where(helpers.toSnakeCase(key), req.query[key])
+            .where(toSnakeCase(key), req.query[key])
             .then(function(favorites) {
                 if (favorites.length > 0) {
                     res.send(true);
@@ -38,10 +41,10 @@ router.get(`/favorites/check`, function(req, res) {
 
 router.post(`/favorites`, function(req, res) {
     knex(`favorites`)
-        .insert(helpers.snakeAllKeys(req.body))
+        .insert(snakeAllKeys(req.body))
         .returning(`*`)
         .then(function(favorite) {
-            res.send(helpers.convertForTests(favorite)[0]);
+            res.send(convertForTests(favorite)[0]);
         })
 });
 
