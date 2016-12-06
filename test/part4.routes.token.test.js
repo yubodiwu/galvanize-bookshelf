@@ -62,7 +62,7 @@ suite('part4 routes token', () => {
   test('GET /token with token', (done) => {
     const agent = request.agent(server);
 
-    request(server)
+    agent
       .post('/token')
       .set('Accept', 'application/json')
       .set('Content-Type', 'application/json')
@@ -75,7 +75,7 @@ suite('part4 routes token', () => {
           return done(err);
         }
 
-        agent.saveCookies(res);
+        // agent.saveCookies(res);
 
         agent
           .get('/token')
@@ -103,7 +103,7 @@ suite('part4 routes token', () => {
         email: 'bad.email@gmail.com',
         password: 'youreawizard'
       })
-      .expect('Content-Type', /plain/)
+    //   .expect('Content-Type', /plain/)
       .expect(400, 'Bad email or password', done);
   });
 
@@ -116,7 +116,7 @@ suite('part4 routes token', () => {
         email: 'jkrowling@gmail.com',
         password: 'badpassword'
       })
-      .expect('Content-Type', /plain/)
+    //   .expect('Content-Type', /plain/)
       .expect(400, 'Bad email or password', done);
   });
 });
